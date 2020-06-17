@@ -11,6 +11,12 @@ domain = "localhost:8000"
 def home(request):
     if request.method == 'POST':
         url_to_short = request.POST.get('longurl')
+        if not '.' in url_to_short:
+            context = {
+                'short': 'Please enter a valid url',
+                'flag': True
+            }
+            return render(request, 'home.html', context=context)
 
         if urlshortdb.objects.filter(long_url_db=url_to_short).exists():
 
